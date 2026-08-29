@@ -26,7 +26,7 @@ if (ffmpeg) {
 }
 
 const PREFIX = "!";
-const DEFAULT_VOLUME = 50;
+const DEFAULT_VOLUME = 35;
 let currentVolume = DEFAULT_VOLUME;
 
 const client = new Client({
@@ -39,7 +39,10 @@ const client = new Client({
 });
 
 const player = new Player(client, {
-    ffmpegPath: ffmpeg || undefined
+    ffmpegPath: ffmpeg || undefined,
+    skipFFmpeg: true,
+    probeTimeout: 20000,
+    connectionTimeout: 30000
 });
 
 player.events.on("playerStart", (queue, track) => {
@@ -54,7 +57,7 @@ player.events.on("playerError", (queue, error) => {
     ).catch(() => {});
 });
 
-client.once("clientReady", async () => {
+client.once("ready", async () => {
 
     console.log("================================");
     console.log("🎵 DISCORD MUSIC BOT");
@@ -62,12 +65,8 @@ client.once("clientReady", async () => {
 
     console.log(`🤖 Logged in as: ${client.user.tag}`);
 
-    // Set bot presence/status
-    client.user.setPresence({
-        status: 'online',
-        activities: [{ name: 'your commands', type: 'LISTENING' }],
-    });
-    console.log("📊 Status set: Listening to your commands");
+    // No custom status; keep the bot's default Discord presence
+    console.log("📊 Status left as default");
 
     try {
 
@@ -237,6 +236,7 @@ client.on("messageCreate", async (message) => {
                     voiceChannel,
                     query,
                     {
+                        searchEngine: "youtube",
                         nodeOptions: {
 
                             metadata: {
@@ -252,6 +252,7 @@ client.on("messageCreate", async (message) => {
                             leaveOnStop: true,
 
                             bufferingTimeout: 60000,
+                            maxBufferingTime: 60000,
 
                             volume: selectedVolume
                         }
@@ -607,7 +608,7 @@ client.on("messageCreate", async (message) => {
 
         if (!parts[0]) {
             return message.reply(
-                `🔊 Current volume: **${queue.node.volume}%**`
+                `🔊 Current volume: **${queue.node.volume ?? currentVolume}%**`
             );
         }
 
