@@ -60,6 +60,10 @@ client.once("clientReady", async () => {
 
     console.log(`🤖 Logged in as: ${client.user.tag}`);
 
+    // Set bot status
+    client.user.setActivity("!help for commands", { type: "WATCHING" });
+    console.log("📊 Status set: Watching !help for commands");
+
     try {
 
         // Load SoundCloud / Spotify metadata / other default extractors
