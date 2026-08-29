@@ -60,9 +60,9 @@ client.once("clientReady", async () => {
 
     console.log(`🤖 Logged in as: ${client.user.tag}`);
 
-    // Set bot status - prefix indicator
-    client.user.setActivity(".help for commands", { type: "WATCHING" });
-    console.log("📊 Status set: Watching .help for commands");
+    // Set bot status
+    client.user.setActivity("ninjaiscook", { type: "WATCHING" });
+    console.log("📊 Status set: Watching ninjaiscook");
 
     try {
 
