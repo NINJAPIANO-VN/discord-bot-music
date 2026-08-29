@@ -87,9 +87,9 @@ client.once("clientReady", async () => {
                 searchLimit: 5,
                 relatedLimit: 5,
 
-                searchTimeoutMs: 10000,
-                videoTimeoutMs: 15000,
-                ytdlpTimeoutMs: 30000,
+                searchTimeoutMs: 20000,
+                videoTimeoutMs: 30000,
+                ytdlpTimeoutMs: 60000,
 
                 enableProtocols: true
             }
@@ -251,7 +251,7 @@ client.on("messageCreate", async (message) => {
                             leaveOnEnd: false,
                             leaveOnStop: true,
 
-                            bufferingTimeout: 30000,
+                            bufferingTimeout: 60000,
 
                             volume: selectedVolume
                         }
