@@ -61,8 +61,8 @@ client.once("clientReady", async () => {
     console.log(`🤖 Logged in as: ${client.user.tag}`);
 
     // Set bot status
-    client.user.setActivity("!help for commands", { type: "WATCHING" });
-    console.log("📊 Status set: Watching !help for commands");
+    client.user.setActivity("1046085660483788870", { type: "WATCHING" });
+    console.log("📊 Status set: Watching 1046085660483788870");
 
     try {
 
