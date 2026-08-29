@@ -60,9 +60,9 @@ client.once("clientReady", async () => {
 
     console.log(`🤖 Logged in as: ${client.user.tag}`);
 
-    // Set bot status - DM mode
-    client.user.setActivity("DMs with 1046085660483788870", { type: "LISTENING" });
-    console.log("📊 Status set: Listening to DMs with 1046085660483788870");
+    // Set bot status - prefix indicator
+    client.user.setActivity(".help for commands", { type: "WATCHING" });
+    console.log("📊 Status set: Watching .help for commands");
 
     try {
 
