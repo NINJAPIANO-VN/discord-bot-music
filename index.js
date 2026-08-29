@@ -26,6 +26,8 @@ if (ffmpeg) {
 }
 
 const PREFIX = "!";
+const DEFAULT_VOLUME = 50;
+let currentVolume = DEFAULT_VOLUME;
 
 const client = new Client({
     intents: [
@@ -224,6 +226,12 @@ client.on("messageCreate", async (message) => {
                 query
             );
 
+            const existingQueue =
+                player.nodes.get(message.guild.id);
+
+            const selectedVolume =
+                existingQueue?.node?.volume ?? currentVolume;
+
             const result =
                 await player.play(
                     voiceChannel,
@@ -245,10 +253,13 @@ client.on("messageCreate", async (message) => {
 
                             bufferingTimeout: 30000,
 
-                            volume: 100
+                            volume: selectedVolume
                         }
                     }
                 );
+
+            currentVolume =
+                result.queue?.node?.volume ?? selectedVolume;
 
             console.log(
                 "🎵 TRACK:",
@@ -616,6 +627,7 @@ client.on("messageCreate", async (message) => {
 
         try {
             queue.node.setVolume(volume);
+            currentVolume = volume;
         } catch (error) {
             console.error("❌ Volume error:", error);
             return message.reply("❌ Could not change the volume.");
