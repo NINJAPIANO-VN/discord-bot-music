@@ -7,7 +7,8 @@ const {
 } = require("discord.js");
 
 const {
-    Player
+    Player,
+    QueryType
 } = require("discord-player");
 
 const {
@@ -40,7 +41,7 @@ const client = new Client({
 
 const player = new Player(client, {
     ffmpegPath: ffmpeg || undefined,
-    skipFFmpeg: true,
+    skipFFmpeg: false,
     probeTimeout: 20000,
     connectionTimeout: 30000
 });
@@ -231,12 +232,16 @@ client.on("messageCreate", async (message) => {
             const selectedVolume =
                 existingQueue?.node?.volume ?? currentVolume;
 
+            const isDirectUrl = /^https?:\/\//i.test(query);
+            const playQuery = isDirectUrl ? query : `ytsearch:${query}`;
+
             const result =
                 await player.play(
                     voiceChannel,
-                    query,
+                    playQuery,
                     {
-                        searchEngine: "youtube",
+                        searchEngine: QueryType.AUTO,
+                        fallbackSearchEngine: QueryType.YOUTUBE_SEARCH,
                         nodeOptions: {
 
                             metadata: {
